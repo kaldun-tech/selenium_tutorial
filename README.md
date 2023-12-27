@@ -1,6 +1,7 @@
 # selenium_tutorial
 
 #### Install dependencies
-'''bash
+'''
+pip install selenium
 pip install webdriver-manager
 '''

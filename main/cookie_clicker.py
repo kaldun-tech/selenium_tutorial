@@ -9,6 +9,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core.os_manager import ChromeType
 import time
 
+
+def find_cookie(driver):
+    return driver.find_element(by=By.ID, value='bigCookie')
+
+def find_cookie_count(driver):
+    return driver.find_element(by=By.ID, value='cookies')
+
 TEST_URL = "https://orteil.dashnet.org/cookieclicker/"
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 # Brave: driver = webdriver.Chrome(service=BraveService(ChromeDriverManager(chrome_type=ChromeType.BRAVE).install()))
@@ -19,15 +26,14 @@ driver.implicitly_wait(5)
 english = driver.find_element(By.ID, "langSelect-EN")
 english.click()
 
-cookie = driver.find_element(by=By.ID, value='bigCookie')
-cookie_count = driver.find_element(by=By.ID, value="cookies")
 items = [driver.find_element(by=By.ID, value="productPrice" + str(i)) for i in range(1,-1,-1)]
-
 actions = ActionChains(driver)
-actions.click(cookie)
 
 for i in range(9001):
+    cookie = find_cookie(driver)
+    actions.click(cookie)
     actions.perform()
+    cookie_count = find_cookie_count(driver)
     count = int(cookie_count.text.split(" ")[0])
     for item in items:
         value = int(item.text)
