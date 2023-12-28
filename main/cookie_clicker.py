@@ -30,6 +30,7 @@ items = [driver.find_element(by=By.ID, value="productPrice" + str(i)) for i in r
 actions = ActionChains(driver)
 
 for i in range(9001):
+    # Getting cookie inside loop prevents StaleElementReferenceException
     cookie = find_cookie(driver)
     actions.click(cookie)
     actions.perform()
